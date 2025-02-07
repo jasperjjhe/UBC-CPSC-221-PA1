@@ -5,13 +5,16 @@
 
 
 int Block::Height() const {
-	/* your code here */
+	
+	if (!data.empty()) {
+		return data[0].size();
+	}
+	
 	return 0;
 }
 
 int Block::Width() const {
-	/* your code here */
-	return 0;
+	return data.size();
 }
 
 void Block::Render(PNG &im, int x) const {
