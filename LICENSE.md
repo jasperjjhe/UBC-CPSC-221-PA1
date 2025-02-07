@@ -1,6 +1,6 @@
 All Rights Reserved
 
-Copyright :copyright: 2025 Jasper He (@jasperjjhe) and Agastya Rai
+Copyright :copyright: 2025 Jasper He (@jasperjjhe) and Agastya Rai (@AgastyaRai)
 
 1. License Grant: This repository and its contents, including but not limited to source code, documentation, images, and other materials, are protected by copyright law. Unless otherwise stated in a separate license agreement, all intellectual property rights are owned by the author(s) of this repository.
 
