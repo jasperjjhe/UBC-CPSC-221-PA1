@@ -50,7 +50,33 @@ Chain::Node * Chain::InsertAfter(Node * p, const Block &ndata) {
 void Chain::Swap(Node *p, Node *q) {
 	/* your code here */
 
+	if (p == nullptr || q == nullptr || p == q) {
+		return;
+	}
     
+	if (head_ == p) {
+		head_ = q;
+	} else if (head_ == q) {
+		head_ = p;
+	}
+
+	Node* pPrevious = p->prev;
+	Node* pNext = p->next;
+	Node* qPrevious = q->prev;
+	Node* qNext = q->next;
+
+	if (pPrevious != nullptr) {
+		pPrevious->next = q;
+	}
+	if (pNext != nullptr) {
+		pNext->prev = q;
+	}
+	if (qPrevious != nullptr) {
+		qPrevious->next = p;
+	}
+	if (qNext != nullptr) {
+		qNext->prev = p;
+	}
 }
 
 /**
