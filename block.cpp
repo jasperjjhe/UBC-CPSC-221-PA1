@@ -18,9 +18,14 @@ int Block::Width() const {
 }
 
 void Block::Render(PNG &im, int x) const {
-	/* your code here */
 	
-	
+	for (int i = 0; i < Width(); i++) {
+		for (int j = 0; j < Height(); j++) {
+			RGBAPixel * pixel = im.getPixel(i + x, j);
+			*pixel = data[i][j];
+		}
+	}
+
 }
 
 void Block::Build(PNG &im, int x, int width) {
