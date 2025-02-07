@@ -110,6 +110,18 @@ void Chain::Copy(Chain const &other) {
  */
 PNG Chain::Render() {
     /* your code here */
+
+	Node* current = head_;
+	int x = 0;
+
+	while (current != nullptr) {
+		Block block = current->data;
+		
+		x += block.Width();
+		current = current->next;
+	}
+
+
     return PNG();
 }
 
