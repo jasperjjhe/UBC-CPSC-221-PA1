@@ -13,8 +13,7 @@
  */
 Chain::~Chain() {
 	/* your code here */
-
-    
+	    
 }
 
 /**
@@ -30,6 +29,7 @@ Chain::~Chain() {
  */
 Chain::Node * Chain::InsertAfter(Node * p, const Block &ndata) {
 	/* your code here */
+	
 	return nullptr;
 }
 
