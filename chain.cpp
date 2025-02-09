@@ -65,6 +65,19 @@ void Chain::Swap(Node *p, Node *q) {
 	if (p == nullptr || q == nullptr || p == q) {
 		return;
 	}
+
+	if (p->next == q) {
+		Node* temp = q;
+		q = p;
+		p = temp;
+	}
+
+	if (q->next == p) {
+		Node* temp = p;
+		p = q;
+		q = temp;
+	}
+
     
 	if (head_ == p) {
 		head_ = q;
