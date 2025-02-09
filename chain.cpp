@@ -293,23 +293,47 @@ void Chain::Unscramble() {
 				check = check -> prev;
 			}
 
-			Node* tempPrev = cand -> prev;
-			Node* tempNext = cand -> next;
-			Node* checkNext = check -> next;
+			if (check -> prev != nullptr) {
 
-			cand -> prev = check;
-			cand -> next = checkNext;
-			check -> next = cand;
-			checkNext -> prev = cand;
+				bool last = false;
+				Node* tempPrev = cand -> prev;
+
+				if (cand -> next == nullptr) {
+					last = true;
+				}
+				
+				Node* tempNext;
+
+				if (!last) {
+					tempNext = cand -> next;
+				}
+
+				Node* checkNext = check -> next;
+
+				cand -> prev = check;
+				cand -> next = checkNext;
+				check -> next = cand;
+				checkNext -> prev = cand;
+				
+				if (!last) {
+
+					tempNext -> prev = tempPrev;
+					tempPrev -> next = tempNext;
+					
+				} else {
+
+					tempPrev -> next = nullptr;
+
+				}
+
+			}
 			
-			tempNext -> prev = tempPrev;
-			tempPrev -> next = tempNext;
 
 		}
 
-		cand = cand -> next;
-
 	}
+
+	cand = cand -> next;
 
 	// step 3: swap nodes to unscramble chain
 }
