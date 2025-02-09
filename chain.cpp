@@ -50,6 +50,8 @@ Chain::Node * Chain::InsertAfter(Node * p, const Block &ndata) {
 		newNode->prev = p;
 	}
 
+	length_++;
+
 	return newNode;
 }
 
