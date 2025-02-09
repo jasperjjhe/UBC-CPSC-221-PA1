@@ -12,7 +12,8 @@
  * memory does not leak on destruction of a chain.
  */
 Chain::~Chain() {
-	/* your code here */
+	// Assuming Clear() is done right
+	Clear();
 	    
 }
 
@@ -100,8 +101,18 @@ void Chain::Swap(Node *p, Node *q) {
  * current Chain class.
  */
 void Chain::Clear() {
-	/* your code here */
+	// I think the only necessary thing to do here is to deallocate Node objects
 
+	Node* cur = head_;
+
+	while (cur != nullptr) {
+		Node* temp = cur -> next;
+		delete cur;
+		cur = temp;
+	}
+
+	head_ = nullptr;
+	length_ = 0;
     
 }
 
@@ -113,8 +124,26 @@ void Chain::Clear() {
  * constructor and the assignment operator for Chains.
  */
 void Chain::Copy(Chain const &other) {
-	/* your code here */
-	
+	// I think this is just making sure the linked list is the same
+
+	if (other.head_ == nullptr) {
+		head_ = nullptr;
+		length_ = 0;
+		return;
+	}
+
+	head_ = new Node(other.head_ -> data);
+	Node* cur = head_;
+	Node* toCopy = other.head_ -> next;
+
+	while (toCopy != nullptr) {
+		cur -> next = new Node(toCopy -> data);
+		cur -> next -> prev = cur;
+		cur = cur -> next;
+		toCopy = toCopy -> next;
+	}
+
+	length_ = other.length_;
 	
 }
 
