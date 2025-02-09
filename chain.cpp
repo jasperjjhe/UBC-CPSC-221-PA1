@@ -194,7 +194,7 @@ PNG Chain::Render() {
 	}
 
 	PNG image = PNG(width, height);
-
+	current = head_;
 	int x = 0;
 
 	while (current != nullptr) {
