@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <map>
+#include <limits>
 
 
 // PA1 functions
@@ -273,35 +274,40 @@ void Chain::Unscramble() {
 		}
 	}
 
-	left_ = nullptr;		
-	
-
-
 	// step 2: sort rest of the chain in terms of distance from leftmost node
 
 	Node* curLeft = left_;
 	Node* cand = curLeft -> next;
-	Block leftBlock = curLeft -> data;
-
-	double distance = leftBlock.DistanceTo(cand -> data);
+	Block leftBlock = left_ -> data;
 	
 	while (cand != nullptr) {
-		
+
 		double curDistance = leftBlock.DistanceTo(cand -> data);
+		double distance = leftBlock.DistanceTo(cand -> prev -> data);
 		
 		if (curDistance < distance) {
 			
+			Node* check = cand -> prev;
+
+			while (curDistance <= leftBlock.DistanceTo(check -> data) && check -> prev != nullptr) {
+				check = check -> prev;
+			}
+
 			Node* tempPrev = cand -> prev;
 			Node* tempNext = cand -> next;
+			Node* checkNext = check -> next;
 
-			cand -> prev = curLeft -> prev;
-			cand -> next = curLeft -> next;
-
-			curLeft -> prev = tempPrev;
-			curLeft -> next = tempNext;
+			cand -> prev = check;
+			cand -> next = checkNext;
+			check -> next = cand;
+			checkNext -> prev = cand;
 			
+			tempNext -> prev = tempPrev;
+			tempPrev -> next = tempNext;
+
 		}
-		
+
+		cand = cand -> next;
 
 	}
 
