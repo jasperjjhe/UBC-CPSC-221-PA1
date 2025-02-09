@@ -178,7 +178,7 @@ PNG Chain::Render() {
 		current = current->next;
 	}
 
-    return ;
+    return image;
 }
 
 /* Modifies the current chain:
