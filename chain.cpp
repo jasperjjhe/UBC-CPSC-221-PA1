@@ -274,44 +274,33 @@ void Chain::Unscramble() {
 		}
 	}
 
+	Swap(head_, left_);
+
 	// step 2: sort rest of the chain in terms of distance from leftmost node
-
-	Node* curLeft = left_;
-	Node* cand = curLeft -> next;
-	Block leftBlock = left_ -> data;
 	
-	while (cand != nullptr) {
+	Node* sortedList = head_;
 
-		double curDistance = leftBlock.DistanceTo(cand -> data);
-		double distance = leftBlock.DistanceTo(cand -> prev -> data);
-		
-		if (curDistance < distance) {
+	while (sortedList->next != nullptr) {
+		double minDistance = std::numeric_limits<double>::max();
+		Node* bestFit;
+
+		Node* cand = sortedList->next;
+
+		while (cand != nullptr) {
+			double distance = sortedList->data.DistanceTo(cand->data);
 			
-			Node* check = cand -> prev;
-
-			while (curDistance <= leftBlock.DistanceTo(check -> data) && check -> prev != nullptr) {
-				check = check -> prev;
+			if (distance < minDistance) {
+				minDistance = distance;
+				bestFit = cand;
 			}
 
-			Node* tempPrev = cand -> prev;
-			Node* tempNext = cand -> next;
-			Node* checkNext = check -> next;
-
-			cand -> prev = check;
-			cand -> next = checkNext;
-			check -> next = cand;
-			checkNext -> prev = cand;
-			
-			tempNext -> prev = tempPrev;
-			tempPrev -> next = tempNext;
-
+			cand = cand->next;
 		}
 
-		cand = cand -> next;
+		Swap(sortedList->next, bestFit);
 
+		sortedList = sortedList->next;
 	}
-
-	// step 3: swap nodes to unscramble chain
 }
 
 /**************************************************
