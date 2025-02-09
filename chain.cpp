@@ -1,6 +1,7 @@
 #include "chain.h"
 #include <cmath>
 #include <iostream>
+#include <map>
 
 
 // PA1 functions
@@ -211,7 +212,7 @@ PNG Chain::Render() {
  * 1) Find the node with the first (leftmost) block in the unscrambled
  *    image and move it to the head of the chain.
  *	This block is the one whose closest match (to the left) is the
- *	largest.  That is, the distance (using distanceTo) to this block
+ *	largest. That is, the distance (using distanceTo) to this block
  *	is big for all other blocks.
  *	For each block B, find the distanceTo B from every other block
  *	and take the minimum of these distances as B's "value".
@@ -225,8 +226,80 @@ PNG Chain::Render() {
  */
 void Chain::Unscramble() {
 	/* your code here */
+	
+	
+	if (head_ == nullptr || head_ -> next == nullptr) {
+		return;
+	}
+	
 
-    
+	// step 1: find leftmost node
+	
+
+	Node* caller = head_;
+	Node* callee = head_;
+	
+	map<Node*, double> distances = map<Node*, double>();
+
+	while (callee != nullptr) {
+		double minDistance = std::numeric_limits<double>::max();
+		Block calleeBlock = callee->data;
+
+		while (caller != nullptr) {
+			Block callerBlock = caller->data;
+
+			if (caller != callee) {
+				double distance = callerBlock.DistanceTo(calleeBlock);
+				minDistance = min(minDistance, distance);
+			}
+
+			
+			caller = caller->next;
+		}
+		
+		distances[callee] = minDistance;
+	}
+
+	double maxDistance = 0;
+	Node* left_ = nullptr;
+
+	for (auto iterator = distances.begin(); iterator != distances.end(); iterator++) {
+		double distance = iterator->second;
+		if (distance > maxDistance) {
+			maxDistance = distance;
+			left_ = iterator->first;
+		}
+	}
+	
+
+	left_ = nullptr;		
+	
+
+
+	// step 2: sort rest of the chain in terms of distance from leftmost node
+
+	Node* cand = left_ -> next;
+	Block leftBlock = left_ -> data;
+
+	double distance = leftBlock.DistanceTo(cand -> data);
+	
+	while (cand != nullptr) {
+		
+		double curDistance = leftBlock.DistanceTo(cand -> data);
+		
+		if (curDistance < distance) {
+			
+			Node* tempPrev =  -> prev;
+			Node* tempNext =  -> next;
+
+			 -> prev =
+			
+		}
+		
+
+	}
+
+	// step 3: swap nodes to unscramble chain
 }
 
 /**************************************************
