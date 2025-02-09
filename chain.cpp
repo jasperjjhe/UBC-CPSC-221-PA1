@@ -66,46 +66,57 @@ void Chain::Swap(Node *p, Node *q) {
 		return;
 	}
 
-	if (p->next == q) {
-		Node* temp = q;
-		q = p;
-		p = temp;
-	}
-
-	if (q->next == p) {
-		Node* temp = p;
-		p = q;
-		q = temp;
-	}
-
-    
-	if (head_ == p) {
-		head_ = q;
-	} else if (head_ == q) {
-		head_ = p;
-	}
-
 	Node* pPrevious = p->prev;
 	Node* pNext = p->next;
 	Node* qPrevious = q->prev;
 	Node* qNext = q->next;
 
-	p->prev = qPrevious;
-	p->next = qNext;
-	q->prev = pPrevious;
-	q->next = pNext;
+	if (pNext == q) {
+		if (pPrevious != nullptr) {
+			pPrevious->next = q;
+		}
+		if (qNext != nullptr) {
+			qNext->prev = p;
+		}
+		p->next = qNext;
+		q->next = p;
+		p->prev = q;
+		q->prev = pPrevious;
+	} else if (qNext == p) {
+		if (qPrevious != nullptr) {
+			qPrevious->next = p;
+		}
+		if (pNext != nullptr) {
+			pNext->prev = q;
+		}
+		q->next = pNext;
+		p->next = q;
+		q->prev = p;
+		p->prev = qPrevious;
+	} else {
+		if (pPrevious != nullptr) {
+			pPrevious->next = q;
+		}
+		if (pNext != nullptr) {
+			pNext->prev = q;
+		}
+		if (qPrevious != nullptr) {
+			qPrevious->next = p;
+		}
+		if (qNext != nullptr) {
+			qNext->prev = p;
+		}
 
-	if (pPrevious != nullptr) {
-		pPrevious->next = q;
+		p->prev = qPrevious;
+		p->next = qNext;
+		q->prev = pPrevious;
+		q->next = pNext;
 	}
-	if (pNext != nullptr) {
-		pNext->prev = q;
-	}
-	if (qPrevious != nullptr) {
-		qPrevious->next = p;
-	}
-	if (qNext != nullptr) {
-		qNext->prev = p;
+    
+	if (head_ == p) {
+		head_ = q;
+	} else if (head_ == q) {
+		head_ = p;
 	}
 }
 
