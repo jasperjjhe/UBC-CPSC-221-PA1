@@ -32,10 +32,21 @@ Chain::Node * Chain::InsertAfter(Node * p, const Block &ndata) {
 	Node* newNode = new Node(ndata);
 
 	if (p == nullptr) {
+		newNode->next = head_;
 		head_ = newNode;
+		if (newNode->next != nullptr) {
+			newNode->next->prev = newNode;
+		}
+		newNode->prev = nullptr;
 	} else {
 		newNode->next = p->next;
+		
+		if (p->next != nullptr) {
+			p->next->prev = newNode;
+		}
+
 		p->next = newNode;
+		newNode->prev = p;
 	}
 
 	return newNode;
@@ -64,6 +75,11 @@ void Chain::Swap(Node *p, Node *q) {
 	Node* pNext = p->next;
 	Node* qPrevious = q->prev;
 	Node* qNext = q->next;
+
+	p->prev = qPrevious;
+	p->next = qNext;
+	q->prev = pPrevious;
+	q->next = pNext;
 
 	if (pPrevious != nullptr) {
 		pPrevious->next = q;
@@ -112,17 +128,28 @@ PNG Chain::Render() {
     /* your code here */
 
 	Node* current = head_;
+	int width = 0;
+	int height = 0;
+
+	while (current != nullptr) {
+		Block block = current->data;
+		width += block.Width();
+		height = max(height, block.Height());
+		current = current->next;
+	}
+
+	PNG image = PNG(width, height);
+
 	int x = 0;
 
 	while (current != nullptr) {
 		Block block = current->data;
-		
+		block.Render(image, x);
 		x += block.Width();
 		current = current->next;
 	}
 
-
-    return PNG();
+    return ;
 }
 
 /* Modifies the current chain:
