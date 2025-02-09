@@ -30,7 +30,10 @@ void Block::Render(PNG &im, int x) const {
 
 void Block::Build(PNG &im, int x, int width) {
 
+	data.resize(width);
+
 	for (int i = 0; i < width; i++) {
+		data[i].resize(im.height());
 		for (int j = 0; j < im.height(); j++) {
 			RGBAPixel * pixel = im.getPixel(i + x, j);
 			data[i][j] = *pixel;
