@@ -244,6 +244,8 @@ void Chain::Unscramble() {
 	while (callee != nullptr) {
 		double minDistance = std::numeric_limits<double>::max();
 		Block calleeBlock = callee->data;
+		
+		caller = head_;
 
 		while (caller != nullptr) {
 			Block callerBlock = caller->data;
@@ -252,12 +254,12 @@ void Chain::Unscramble() {
 				double distance = callerBlock.DistanceTo(calleeBlock);
 				minDistance = min(minDistance, distance);
 			}
-
 			
 			caller = caller->next;
 		}
 		
 		distances[callee] = minDistance;
+		callee = callee->next;
 	}
 
 	double maxDistance = 0;
@@ -270,7 +272,6 @@ void Chain::Unscramble() {
 			left_ = iterator->first;
 		}
 	}
-	
 
 	left_ = nullptr;		
 	
@@ -278,8 +279,9 @@ void Chain::Unscramble() {
 
 	// step 2: sort rest of the chain in terms of distance from leftmost node
 
-	Node* cand = left_ -> next;
-	Block leftBlock = left_ -> data;
+	Node* curLeft = left_;
+	Node* cand = curLeft -> next;
+	Block leftBlock = curLeft -> data;
 
 	double distance = leftBlock.DistanceTo(cand -> data);
 	
@@ -289,10 +291,14 @@ void Chain::Unscramble() {
 		
 		if (curDistance < distance) {
 			
-			Node* tempPrev =  -> prev;
-			Node* tempNext =  -> next;
+			Node* tempPrev = cand -> prev;
+			Node* tempNext = cand -> next;
 
-			 -> prev =
+			cand -> prev = curLeft -> prev;
+			cand -> next = curLeft -> next;
+
+			curLeft -> prev = tempPrev;
+			curLeft -> next = tempNext;
 			
 		}
 		
